@@ -1,4 +1,5 @@
 "use client"
+import { Room } from "@/utils/Types";
 import { Box, Button, createListCollection, Flex, Heading, SelectContent, SelectItem, SelectLabel, SelectRoot, SelectTrigger, SelectValueText, SimpleGrid } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -8,20 +9,52 @@ export default function Home() {
   const [roomId, setRoomId] = useState<number | null>(0);
   const [therapistId, setTherapistId] = useState<number | null>(0);
 
-  const rooms: { [key: number]: string } = {
-    1: "Room 1",
-    2: "Room 2",
-    3: "Room 3",
-    4: "Room 4",
-    5: "Room 5",
-    6: "Room 6",
-    7: "Room 7",
-    8: "Room 8",
-    9: "Room 9",
-    10: "Room 10",
-    11: "Room 11",
-    12: "Room 12",
-  };
+  const rooms: Array<Room> = [
+    {
+      'id': 1,
+      'name': "Room 1"
+    },
+    {
+      'id': 2,
+      'name': "Room 2"
+    },
+    {
+      'id': 3,
+      'name': "Room 3"
+    },
+    {
+      'id': 4,
+      'name': "Room 4"
+    },
+    {
+      'id': 5,
+      'name': "Room 5"
+    },
+    {
+      'id': 6,
+      'name': "Room 6"
+    },
+    {
+      'id': 7,
+      'name': "Room 7"
+    },
+    {
+      'id': 9,
+      'name': "Room 9"
+    },
+    {
+      'id': 10,
+      'name': "Room 10" 
+    },
+    {
+      'id': 11,
+      'name': "Room 11"
+    },
+    {
+      'id': 12,
+      'name': "Room 12"
+    }
+  ];
 
   const therapists = [
     {
@@ -50,7 +83,7 @@ export default function Home() {
   })
 
   return (
-    <Flex>
+    <Flex id="MainBox">
       <Box>
         <h1>Logo</h1>
       </Box>
@@ -75,9 +108,13 @@ export default function Home() {
       <Box>
         <Heading>Select a Room</Heading>
         <SimpleGrid columns={3} gap={6}>
-          {Object.keys(rooms).map((key) => (
-            <Button key={key} onClick={() => setRoomId(parseInt(key))} size="xl">
-              {rooms[parseInt(key)]}
+          {rooms.map((room) => (
+            <Button
+              key={room.id}
+              onClick={() => setRoomId(room.id)}
+              colorPalette={room.id === roomId ? "red" : "gray"}
+            >
+              {room.name}
             </Button>
           ))}
         </SimpleGrid>
