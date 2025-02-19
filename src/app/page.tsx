@@ -1,6 +1,22 @@
 "use client"
-import { Room } from "@/utils/Types";
-import { Box, Button, createListCollection, Flex, Heading, SelectContent, SelectItem, SelectLabel, SelectRoot, SelectTrigger, SelectValueText, SimpleGrid } from "@chakra-ui/react";
+import { Room, Therapist } from "@/utils/Types";
+import {
+  Box,
+  Button,
+  createListCollection,
+  Flex,
+  Heading,
+  SimpleGrid
+} from "@chakra-ui/react";
+import {
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/ui/select"
+
 import { useState } from "react";
 
 
@@ -44,7 +60,7 @@ export default function Home() {
     },
     {
       'id': 10,
-      'name': "Room 10" 
+      'name': "Room 10"
     },
     {
       'id': 11,
@@ -56,7 +72,7 @@ export default function Home() {
     }
   ];
 
-  const therapists = [
+  const therapists: Array<Therapist> = [
     {
       id: 1,
       name: "Dr. John Doe",
@@ -83,7 +99,7 @@ export default function Home() {
   })
 
   return (
-    <Flex id="MainBox">
+    <Flex id="MainBox" flexDirection={"column"} p={"40px"}>
       <Box>
         <h1>Logo</h1>
       </Box>
@@ -91,12 +107,12 @@ export default function Home() {
         <h1>Appointment Time</h1>
       </Box>
       <Box>
-        <SelectRoot collection={frameworks} size="sm" width="320px">
+        <SelectRoot collection={frameworks} size="sm" width="320px" padding="5px">
           <SelectLabel>Select Therapist</SelectLabel>
           <SelectTrigger>
-            <SelectValueText placeholder="Select therapist" />
+            <SelectValueText padding="4px" placeholder="Select therapist" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent padding="4px">
             {frameworks.items.map((therapist) => (
               <SelectItem item={therapist} key={therapist.label}>
                 {therapist.value}
