@@ -23,7 +23,7 @@ import { useState } from "react";
 export default function Home() {
 
   const [roomId, setRoomId] = useState<number | null>(0);
-  const [therapistId, setTherapistId] = useState<number | null>(0);
+  const [therapistId, setTherapistId] = useState<string[]>([]);
 
   const rooms: Array<Room> = [
     {
@@ -93,8 +93,8 @@ export default function Home() {
 
   const frameworks = createListCollection({
     items: therapists.map((therapist) => ({
-      label: therapist.id,
-      value: therapist.name,
+      label: therapist.name,
+      value: therapist.id,
     })),
   })
 
@@ -107,15 +107,16 @@ export default function Home() {
         <h1>Appointment Time</h1>
       </Box>
       <Box>
-        <SelectRoot collection={frameworks} size="sm" width="320px" padding="5px">
+        <SelectRoot collection={frameworks} size="sm" width="320px" padding="5px" value={therapistId}
+      onValueChange={(e) => setTherapistId(e.value)}>
           <SelectLabel>Select Therapist</SelectLabel>
           <SelectTrigger>
             <SelectValueText padding="4px" placeholder="Select therapist" />
           </SelectTrigger>
           <SelectContent padding="4px">
             {frameworks.items.map((therapist) => (
-              <SelectItem item={therapist} key={therapist.label}>
-                {therapist.value}
+              <SelectItem item={therapist} key={therapist.value}>
+                {therapist.label}
               </SelectItem>
             ))}
           </SelectContent>
