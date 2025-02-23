@@ -22,8 +22,29 @@ import { useState } from "react";
 
 export default function Home() {
 
+  const [apptTime, setApptTime] = useState<string[]>([]);
   const [roomId, setRoomId] = useState<number | null>(0);
   const [therapistId, setTherapistId] = useState<string[]>([]);
+
+  const times = [
+    '07:00',
+    '07:45',
+    '08:30',
+    '09:15',
+    '10:00',
+    '10:45',
+    '11:30',
+    '12:15',
+    '13:00',
+    '13:45',
+    '14:30',
+    '15:15',
+    '16:00',
+    '16:45',
+    '17:30',
+    '18:15',
+    '19:00',
+  ];
 
   const rooms: Array<Room> = [
     {
@@ -91,52 +112,89 @@ export default function Home() {
     },
   ];
 
-  const frameworks = createListCollection({
+  const apptTimeFramework = createListCollection({
+    items: times.map((time, index) => ({
+      label: time,
+      value: index,
+    })),
+  })
+
+  const therapistFramework = createListCollection({
     items: therapists.map((therapist) => ({
       label: therapist.name,
       value: therapist.id,
     })),
-  })
+  });
+
+  const handleSubmit = () => {
+    console.log({
+      apptTime: apptTime[0],
+      roomId,
+      therapistId: therapistId[0],
+    });
+  }
 
   return (
-    <Flex id="MainBox" flexDirection={"column"} p={"40px"}>
-      <Box>
-        <h1>Logo</h1>
-      </Box>
-      <Box>
-        <h1>Appointment Time</h1>
-      </Box>
-      <Box>
-        <SelectRoot collection={frameworks} size="sm" width="320px" padding="5px" value={therapistId}
-      onValueChange={(e) => setTherapistId(e.value)}>
-          <SelectLabel>Select Therapist</SelectLabel>
-          <SelectTrigger>
-            <SelectValueText padding="4px" placeholder="Select therapist" />
-          </SelectTrigger>
-          <SelectContent padding="4px">
-            {frameworks.items.map((therapist) => (
-              <SelectItem item={therapist} key={therapist.value}>
-                {therapist.label}
-              </SelectItem>
+    <Flex justifyContent='center'>
+      <Flex justifyContent='center' id="MainBox" flexDirection={"column"} p={"40px"} w="500px">
+        <Box>
+          <h1>Logo</h1>
+        </Box>
+
+        <Box>
+          <SelectRoot collection={apptTimeFramework} size="sm" width="320px" padding="5px" value={apptTime} onValueChange={(e) => setApptTime(e.value)}>
+            <SelectLabel>Select Appointment Time</SelectLabel>
+            <SelectTrigger>
+              <SelectValueText padding="4px" placeholder="Select appointment time" />
+            </SelectTrigger>
+            <SelectContent padding="4px">
+              {apptTimeFramework.items.map((time) => (
+                <SelectItem item={time} key={time.value}>
+                  {time.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </SelectRoot>
+        </Box>
+
+        <Box>
+          <SelectRoot collection={therapistFramework} size="sm" width="320px" padding="5px" value={therapistId} onValueChange={(e) => setTherapistId(e.value)}>
+            <SelectLabel>Select Therapist</SelectLabel>
+            <SelectTrigger>
+              <SelectValueText padding="4px" placeholder="Select therapist" />
+            </SelectTrigger>
+            <SelectContent padding="4px">
+              {therapistFramework.items.map((therapist) => (
+                <SelectItem item={therapist} key={therapist.value}>
+                  {therapist.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </SelectRoot>
+        </Box>
+
+        <Box>
+          <Heading>Select a Room</Heading>
+          <SimpleGrid columns={3} gap={6}>
+            {rooms.map((room) => (
+              <Button
+                key={room.id}
+                onClick={() => setRoomId(room.id)}
+                colorPalette={room.id === roomId ? "red" : "gray"}
+              >
+                {room.name}
+              </Button>
             ))}
-          </SelectContent>
-        </SelectRoot>
-      </Box>
-      <Box>
-        <Heading>Select a Room</Heading>
-        <SimpleGrid columns={3} gap={6}>
-          {rooms.map((room) => (
-            <Button
-              key={room.id}
-              onClick={() => setRoomId(room.id)}
-              colorPalette={room.id === roomId ? "red" : "gray"}
-            >
-              {room.name}
-            </Button>
-          ))}
-        </SimpleGrid>
-      </Box>
+          </SimpleGrid>
+        </Box>
+
+        <Box p='20px'justifyContent='center' w='100%'>
+          <Button w='100px' onClick={handleSubmit}>Submit</Button>
+        </Box>
+
+      </Flex>
     </Flex>
+
 
   );
 }
