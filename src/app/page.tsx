@@ -6,7 +6,8 @@ import {
   createListCollection,
   Flex,
   Heading,
-  SimpleGrid
+  SimpleGrid,
+  Spinner
 } from "@chakra-ui/react";
 import {
   SelectContent,
@@ -25,6 +26,7 @@ export default function Home() {
   const [apptTime, setApptTime] = useState<string[]>([]);
   const [roomId, setRoomId] = useState<number | null>(0);
   const [therapistId, setTherapistId] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState<boolean>(false)
 
   const times = [
     '07:00',
@@ -127,11 +129,18 @@ export default function Home() {
   });
 
   const handleSubmit = () => {
-    console.log({
-      apptTime: apptTime[0],
-      roomId,
-      therapistId: therapistId[0],
-    });
+    setSubmitting(true);
+    setTimeout(() => {
+      console.log({
+        apptTime: apptTime[0],
+        roomId,
+        therapistId: therapistId[0],
+      });
+
+      setSubmitting(false);
+      alert('Submitted')
+    }, 2000);
+    
   }
 
   return (
@@ -189,9 +198,10 @@ export default function Home() {
         </Box>
 
         <Box p='20px'justifyContent='center' w='100%'>
-          <Button w='100px' onClick={handleSubmit}>Submit</Button>
+          <Button w='100px' onClick={handleSubmit}>
+            {submitting ? <Spinner /> : "Submit"}
+          </Button> 
         </Box>
-
       </Flex>
     </Flex>
 
