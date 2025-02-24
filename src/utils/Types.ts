@@ -10,4 +10,11 @@ interface Therapist {
   password: string;
 };
 
-export type { Room, Therapist };
+interface Notification {
+  id?: number;
+  therapistId: number;
+  apptTime: string;
+  roomNumber: string;
+}
+
+export type { Room, Therapist, Notification };

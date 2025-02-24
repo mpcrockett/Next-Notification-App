@@ -16,18 +16,19 @@ datasource db {
 model therapist {
   id        Int      @id @default(autoincrement())
   name      String
-  email     String
+  email     String @unique
   password  String
+  notification notification[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model apptTime {
+model notification {
   id        Int      @id @default(autoincrement())
-  time      String
-}
-
-model Room {
-  id       Int      @id @default(autoincrement())
-  name      String
+  therapistId     Int
+  roomNumber   String
+  apptTime     String
+  therapist    therapist @relation(fields: [therapistId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

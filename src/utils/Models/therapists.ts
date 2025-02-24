@@ -15,3 +15,12 @@ export const createTherapist = async (therapist: Therapist) => {
     console.log(error)
   }
 };
+
+export const getTherapists = async () => {
+  try {
+    const therapists = await prisma.therapist.findMany({});
+    return therapists;
+  } catch (error) {
+    console.log(error);
+  }
+}
