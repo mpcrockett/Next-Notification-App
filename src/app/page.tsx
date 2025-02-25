@@ -1,5 +1,5 @@
 "use client"
-import { Room, Therapist } from "@/utils/Types";
+import { Therapist, Notification } from "@/utils/Types";
 import {
   Box,
   Button,
@@ -24,7 +24,7 @@ import { useState } from "react";
 export default function Home() {
 
   const [apptTime, setApptTime] = useState<string[]>([]);
-  const [roomId, setRoomId] = useState<number | null>(0);
+  const [roomId, setRoomId] = useState<string | null>('');
   const [therapistId, setTherapistId] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState<boolean>(false)
 
@@ -48,76 +48,41 @@ export default function Home() {
     '19:00',
   ];
 
-  const rooms: Array<Room> = [
-    {
-      'id': 1,
-      'name': "Room 1"
-    },
-    {
-      'id': 2,
-      'name': "Room 2"
-    },
-    {
-      'id': 3,
-      'name': "Room 3"
-    },
-    {
-      'id': 4,
-      'name': "Room 4"
-    },
-    {
-      'id': 5,
-      'name': "Room 5"
-    },
-    {
-      'id': 6,
-      'name': "Room 6"
-    },
-    {
-      'id': 7,
-      'name': "Room 7"
-    },
-    {
-      'id': 9,
-      'name': "Room 9"
-    },
-    {
-      'id': 10,
-      'name': "Room 10"
-    },
-    {
-      'id': 11,
-      'name': "Room 11"
-    },
-    {
-      'id': 12,
-      'name': "Room 12"
-    }
+  const rooms: string[] = [
+   '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
   ];
 
   const therapists: Array<Therapist> = [
     {
       id: 1,
       name: "Dr. John Doe",
+      email: "email",
+      password: "password", 
     },
     {
       id: 2,
       name: "Dr. Jane Doe",
+      email: "email",
+      password: "password"
     },
     {
       id: 3,
-      name: "Dr. John Smith"
+      name: "Dr. John Smith",
+      email: "email",
+      password: "password"
     },
     {
       id: 4,
-      name: "Dr. Jane Smith"
+      name: "Dr. Jane Smith",
+      email: "email",
+      password: "password"
     },
   ];
 
   const apptTimeFramework = createListCollection({
-    items: times.map((time, index) => ({
+    items: times.map((time) => ({
       label: time,
-      value: index,
+      value: time,
     })),
   })
 
@@ -133,7 +98,7 @@ export default function Home() {
     setTimeout(() => {
       console.log({
         apptTime: apptTime[0],
-        roomId,
+        room: roomId,
         therapistId: therapistId[0],
       });
 
@@ -185,13 +150,13 @@ export default function Home() {
         <Box>
           <Heading>Select a Room</Heading>
           <SimpleGrid columns={3} gap={6}>
-            {rooms.map((room) => (
+            {rooms.map((room, index) => (
               <Button
-                key={room.id}
-                onClick={() => setRoomId(room.id)}
-                colorPalette={room.id === roomId ? "red" : "gray"}
+                key={index}
+                onClick={() => setRoomId(room)}
+                colorPalette={room === roomId ? "red" : "gray"}
               >
-                {room.name}
+                {room}
               </Button>
             ))}
           </SimpleGrid>
