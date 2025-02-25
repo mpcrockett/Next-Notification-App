@@ -10,11 +10,11 @@ interface Therapist {
   password: string;
 };
 
-interface Notification {
+type iNotification= {
   id?: number;
   therapistId: number;
   apptTime: string;
   roomNumber: string;
 }
 
-export type { Room, Therapist, Notification };
+export type { Room, Therapist, iNotification };
