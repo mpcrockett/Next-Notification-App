@@ -10,7 +10,7 @@ interface Therapist {
   password: string;
 };
 
-type iNotification= {
+interface iNotification {
   id?: number;
   therapistId: number;
   apptTime: string;
