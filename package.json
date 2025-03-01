@@ -12,6 +12,7 @@
     "@emotion/react": "^11.14.0",
     "@prisma/client": "^6.3.1",
     "discord": "^0.8.2",
+    "fs": "^0.0.1-security",
     "next": "15.1.7",
     "next-themes": "^0.4.4",
     "prisma": "^6.3.1",

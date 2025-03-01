@@ -1,6 +1,7 @@
 "use client"
-import { Therapist, Notification, iForm } from "@/utils/Types";
+import { Therapist, iForm } from "@/utils/Types";
 import { useState } from "react";
+import { sendDiscordNotification } from "@/utils/bot.js";
 
 
 export default function Home() {
@@ -67,7 +68,7 @@ export default function Home() {
     setSubmitting(true);
     setTimeout(() => {
       console.log(formData);
-
+      sendDiscordNotification(formData);
       setSubmitting(false);
       alert('Submitted')
     }, 2000);
