@@ -17,4 +17,10 @@ interface iNotification {
   roomNumber: string;
 }
 
-export type { Room, Therapist, iNotification };
+interface iForm {
+  apptTime: string;
+  room: string;
+  therapistId: number | '';
+}
+
+export type { Room, Therapist, iNotification, iForm };
