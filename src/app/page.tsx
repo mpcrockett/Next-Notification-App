@@ -1,8 +1,6 @@
 "use client"
 import { Therapist, iForm } from "@/utils/Types";
 import { useState } from "react";
-import { sendDiscordNotification } from "@/utils/bot.js";
-
 
 export default function Home() {
   const [formData, setFormData] = useState<iForm>({
