@@ -1,13 +1,27 @@
 "use client"
 import { Therapist, iForm } from "@/utils/Types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [therapists, setTherapists] = useState<Therapist[]>([]);
   const [formData, setFormData] = useState<iForm>({
     apptTime: '',
     roomNumber: '',
     therapistId: 0,
   });
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/therapists')
+      .then(response => {
+        return response.json();
+      })
+      .then((data) => {
+       return setTherapists(data.therapists);
+      })
+      .catch((error) => {
+        console.error("Error during fetch or parsing:", error);
+      });
+  }, []);
 
   const [submitting, setSubmitting] = useState<boolean>(false)
 
@@ -50,32 +64,32 @@ export default function Home() {
    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
   ];
 
-  const therapists: Array<Therapist> = [
-    {
-      id: 1,
-      name: "Dr. John Doe",
-      email: "email",
-      password: "password", 
-    },
-    {
-      id: 2,
-      name: "Dr. Jane Doe",
-      email: "email",
-      password: "password"
-    },
-    {
-      id: 3,
-      name: "Dr. John Smith",
-      email: "email",
-      password: "password"
-    },
-    {
-      id: 4,
-      name: "Dr. Jane Smith",
-      email: "email",
-      password: "password"
-    },
-  ];
+  // const therapists: Array<Therapist> = [
+  //   {
+  //     id: 1,
+  //     name: "Dr. John Doe",
+  //     email: "email",
+  //     password: "password", 
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Dr. Jane Doe",
+  //     email: "email",
+  //     password: "password"
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Dr. John Smith",
+  //     email: "email",
+  //     password: "password"
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Dr. Jane Smith",
+  //     email: "email",
+  //     password: "password"
+  //   },
+  // ];
 
   const handleSubmit = (formData: iForm) => {
     setSubmitting(true)
@@ -100,7 +114,7 @@ export default function Home() {
       </select>
       <select name="therapistId" value={formData.therapistId} onChange={handleChange}>
         <option value="">Therapist</option>
-        {therapists.map((therapist) => (
+        {therapists.length > 0 && therapists.map((therapist) => (
           <option key={therapist.id} value={therapist.id}>{therapist.name}</option>
         ))}
       </select>
