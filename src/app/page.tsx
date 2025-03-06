@@ -5,11 +5,26 @@ import { useState } from "react";
 export default function Home() {
   const [formData, setFormData] = useState<iForm>({
     apptTime: '',
-    room: '',
-    therapistId: '',
+    roomNumber: '',
+    therapistId: 0,
   });
 
   const [submitting, setSubmitting] = useState<boolean>(false)
+
+  const postNotification = async (form: iForm) => {
+    try {
+      console.log('post function')
+      return await fetch('http://localhost:3001/api/notifications/notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const times = [
     '07:00',
@@ -62,15 +77,11 @@ export default function Home() {
     },
   ];
 
-  const handleSubmit = () => {
-    setSubmitting(true);
-    setTimeout(() => {
-      console.log(formData);
-      sendDiscordNotification(formData);
-      setSubmitting(false);
-      alert('Submitted')
-    }, 2000);
-    
+  const handleSubmit = (formData: iForm) => {
+    setSubmitting(true)
+    postNotification(formData).then(() => {
+        setSubmitting(false);
+    });  
   };
 
   const handleChange = (e) => {
@@ -95,20 +106,20 @@ export default function Home() {
       </select>
       <fieldset>
         <legend>Select a Room</legend>
-        {rooms.map((room) => (
-          <label key={room}>
+        {rooms.map((roomNumber) => (
+          <label key={roomNumber}>
             <input
               type="radio"
-              name="room"
-              value={room}
-              checked={formData.room === room}
+              name="roomNumber"
+              value={roomNumber}
+              checked={formData.roomNumber === roomNumber}
               onChange={handleChange}
             />
-            {room}
+            {roomNumber}
           </label>
         ))}
       </fieldset>
-      <button type="button" onClick={handleSubmit} disabled={submitting}>
+      <button type="button" onClick={() => handleSubmit(formData)} disabled={submitting}>
         {submitting ? 'Submitting...' : 'Submit'}
       </button>
     </form>

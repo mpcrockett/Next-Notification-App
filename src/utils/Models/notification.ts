@@ -1,4 +1,4 @@
-
+import { Prisma } from "@prisma/client";
 import prisma from "../../../prisma/client";
 import { iNotification} from "../Types";
 
@@ -11,8 +11,14 @@ export const createNotification = async (notification: iNotification) => {
         roomNumber: notification.roomNumber,
       },
     });
-  } catch (error: any) {
-    console.log('Something went wrong');
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error('Prisma error:', error.message);
+      return { error: error.message, code: error.code };
+    }
+
+    console.error('Unknown error:', error);
+    return { error: 'An unexpected error occurred' };
   }
 };
 

@@ -19,8 +19,8 @@ interface iNotification {
 
 interface iForm {
   apptTime: string;
-  room: string;
-  therapistId: number | '';
+  roomNumber: string;
+  therapistId: number;
 }
 
 export type { Room, Therapist, iNotification, iForm };
