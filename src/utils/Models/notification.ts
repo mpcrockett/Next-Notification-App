@@ -26,6 +26,11 @@ export const getNotifications = async () => {
   try {
     return await prisma.notification.findMany();
   } catch (error) {
-    console.log({error: error})
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error('Prisma error:', error.message);
+      return { error: error.message, code: error.code };
+    }
+    console.error('Unknown error:', error);
+    return { error: 'An unexpected error occurred' };
   }
 };

@@ -11,12 +11,12 @@ export default function Home() {
   });
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/therapists')
+    fetch('/api/therapists')
       .then(response => {
         return response.json();
       })
       .then((data) => {
-       return setTherapists(data.therapists);
+        return setTherapists(data.therapists);
       })
       .catch((error) => {
         console.error("Error during fetch or parsing:", error);
@@ -28,7 +28,7 @@ export default function Home() {
   const postNotification = async (form: iForm) => {
     try {
       console.log('post function')
-      return await fetch('http://localhost:3001/api/notifications/notification', {
+      return await fetch('/api/notifications/notification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,43 +64,20 @@ export default function Home() {
    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
   ];
 
-  // const therapists: Array<Therapist> = [
-  //   {
-  //     id: 1,
-  //     name: "Dr. John Doe",
-  //     email: "email",
-  //     password: "password", 
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dr. Jane Doe",
-  //     email: "email",
-  //     password: "password"
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Dr. John Smith",
-  //     email: "email",
-  //     password: "password"
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Dr. Jane Smith",
-  //     email: "email",
-  //     password: "password"
-  //   },
-  // ];
-
   const handleSubmit = (formData: iForm) => {
     setSubmitting(true)
     postNotification(formData).then(() => {
         setSubmitting(false);
-    });  
+    });
+    setFormData({
+      apptTime: formData.apptTime,
+      roomNumber: '',
+      therapistId: 0,
+    })  
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
