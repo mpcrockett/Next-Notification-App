@@ -1,3 +1,4 @@
+"use server";
 import prisma from '../../../prisma/client';
 import { Therapist } from '../Types';
 

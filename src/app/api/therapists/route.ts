@@ -1,10 +1,12 @@
 'use server';
 
 import { getTherapists } from "@/utils/Models/therapists";
+import { createMessage } from "@/utils/twilio";
 
 export async function GET() {
   try {
     const therapists = await getTherapists();
+    await createMessage();  
 
     return new Response(JSON.stringify({ therapists }), {
       status: 200,
