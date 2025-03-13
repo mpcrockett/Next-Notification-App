@@ -11,8 +11,10 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@prisma/client": "^6.3.1",
+    "@supabase/supabase-js": "^2.49.1",
     "discord": "^0.8.2",
     "fs": "^0.0.1-security",
+    "google-one-tap": "^1.0.6",
     "next": "15.1.7",
     "next-themes": "^0.4.4",
     "prisma": "^6.3.1",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/google-one-tap": "^1.2.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

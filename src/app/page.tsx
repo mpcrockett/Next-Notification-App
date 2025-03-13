@@ -1,6 +1,7 @@
 "use client"
 import { Therapist, iForm } from "@/utils/Types";
 import { useEffect, useState } from "react";
+import OneTapComponent from "./oneTap";
 
 export default function Home() {
   const [therapists, setTherapists] = useState<Therapist[]>([]);
@@ -61,58 +62,62 @@ export default function Home() {
   ];
 
   const rooms: string[] = [
-   '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
   ];
 
   const handleSubmit = (formData: iForm) => {
     setSubmitting(true)
     postNotification(formData).then(() => {
-        setSubmitting(false);
+      setSubmitting(false);
     });
     setFormData({
       apptTime: formData.apptTime,
       roomNumber: '',
       therapistId: 0,
-    })  
+    })
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <form>
-      <select name="apptTime" value={formData.apptTime} onChange={handleChange}>
-        <option value="">Appointment Time</option>
-        {times.map((time) => (
-          <option key={time} value={time}>{time}</option>
-        ))}
-      </select>
-      <select name="therapistId" value={formData.therapistId} onChange={handleChange}>
-        <option value="">Therapist</option>
-        {therapists.length > 0 && therapists.map((therapist) => (
-          <option key={therapist.id} value={therapist.id}>{therapist.name}</option>
-        ))}
-      </select>
-      <fieldset>
-        <legend>Select a Room</legend>
-        {rooms.map((roomNumber) => (
-          <label key={roomNumber}>
-            <input
-              type="radio"
-              name="roomNumber"
-              value={roomNumber}
-              checked={formData.roomNumber === roomNumber}
-              onChange={handleChange}
-            />
-            {roomNumber}
-          </label>
-        ))}
-      </fieldset>
-      <button type="button" onClick={() => handleSubmit(formData)} disabled={submitting}>
-        {submitting ? 'Submitting...' : 'Submit'}
-      </button>
-    </form>
+    <>
+      <OneTapComponent />
+      <form>
+        <select name="apptTime" value={formData.apptTime} onChange={handleChange}>
+          <option value="">Appointment Time</option>
+          {times.map((time) => (
+            <option key={time} value={time}>{time}</option>
+          ))}
+        </select>
+        <select name="therapistId" value={formData.therapistId} onChange={handleChange}>
+          <option value="">Therapist</option>
+          {therapists.length > 0 && therapists.map((therapist) => (
+            <option key={therapist.id} value={therapist.id}>{therapist.name}</option>
+          ))}
+        </select>
+        <fieldset>
+          <legend>Select a Room</legend>
+          {rooms.map((roomNumber) => (
+            <label key={roomNumber}>
+              <input
+                type="radio"
+                name="roomNumber"
+                value={roomNumber}
+                checked={formData.roomNumber === roomNumber}
+                onChange={handleChange}
+              />
+              {roomNumber}
+            </label>
+          ))}
+        </fieldset>
+        <button type="button" onClick={() => handleSubmit(formData)} disabled={submitting}>
+          {submitting ? 'Submitting...' : 'Submit'}
+        </button>
+      </form>
+    </>
+
   );
 }
