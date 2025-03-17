@@ -5,6 +5,7 @@ export function middleware() {
   //   { message: 'Authorization Denied' },
   //   { status: 401}
   // )
+  console.log("middleware");
   return NextResponse.next();
 };
 

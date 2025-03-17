@@ -13,7 +13,7 @@ export default function useTherapists() {
         return setTherapists(data.therapists);
       })
       .catch((error) => {
-        console.error("Error during fetch or parsing:", error);
+        console.error("Error fetching therapists", error);
       });
   }, []);
 

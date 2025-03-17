@@ -2,6 +2,7 @@
 import useTherapists from "@/utils/hooks/useTherapists";
 import { iForm } from "@/utils/Types";
 import { useState } from "react";
+import NotificationForm from "./components/notificationForm";
 
 
 export default function Home() {
@@ -29,30 +30,6 @@ export default function Home() {
     }
   };
 
-  const times = [
-    '07:00',
-    '07:45',
-    '08:30',
-    '09:15',
-    '10:00',
-    '10:45',
-    '11:30',
-    '12:15',
-    '13:00',
-    '13:45',
-    '14:30',
-    '15:15',
-    '16:00',
-    '16:45',
-    '17:30',
-    '18:15',
-    '19:00',
-  ];
-
-  const rooms: string[] = [
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
-  ];
-
   const handleSubmit = (formData: iForm) => {
     setSubmitting(true)
     postNotification(formData).then(() => {
@@ -72,38 +49,13 @@ export default function Home() {
 
   return (
     <>
-      <form>
-        <select name="apptTime" value={formData.apptTime} onChange={handleChange}>
-          <option value="">Appointment Time</option>
-          {times.map((time) => (
-            <option key={time} value={time}>{time}</option>
-          ))}
-        </select>
-        <select name="therapistId" value={formData.therapistId} onChange={handleChange}>
-          <option value="">Therapist</option>
-          {therapists.length > 0 && therapists.map((therapist) => (
-            <option key={therapist.id} value={therapist.id}>{therapist.name}</option>
-          ))}
-        </select>
-        <fieldset>
-          <legend>Select a Room</legend>
-          {rooms.map((roomNumber) => (
-            <label key={roomNumber}>
-              <input
-                type="radio"
-                name="roomNumber"
-                value={roomNumber}
-                checked={formData.roomNumber === roomNumber}
-                onChange={handleChange}
-              />
-              {roomNumber}
-            </label>
-          ))}
-        </fieldset>
-        <button type="button" onClick={() => handleSubmit(formData)} disabled={submitting}>
-          {submitting ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
+      <NotificationForm 
+        therapists={therapists}
+        submitting={submitting}
+        formData={formData}
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+      />
     </>
 
   );
