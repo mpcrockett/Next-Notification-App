@@ -39,7 +39,7 @@ model notification {
 model user {
   id           Int            @id @default(autoincrement())
   name         String
-  phoneNuber   String
+  phoneNumber  String
   role         Role           @default(ADMIN)
   email        String         @unique
   password     String

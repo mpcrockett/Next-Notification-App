@@ -1,12 +1,12 @@
 'use server';
 
-import { getTherapists } from "@/utils/Models/therapists";
+import { getProviders } from "@/utils/Models/therapists";
 
 export async function GET() {
   try {
-    const therapists = await getTherapists();
-
-    return new Response(JSON.stringify({ therapists }), {
+    const providers = await getProviders();
+    console.log(providers)
+    return new Response(JSON.stringify({ providers }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

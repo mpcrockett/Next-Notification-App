@@ -1,25 +1,25 @@
 'use server';
 
-import { createTherapist } from "@/utils/Models/therapists";
-import { Therapist } from "@/utils/Types";
+import { createUser } from "@/utils/Models/therapists";
+import { iUser } from "@/utils/Types";
 
 export async function POST(req: Request) {
   try {
-    const body: Therapist = await req.json();
+    const body: iUser = await req.json();
     
 
     // Simple validation
-    if (!body.name || !body.email || !body.password) {
+    if (!body.name || !body.email || !body.password ||!body.phoneNumber) {
       return new Response(JSON.stringify({ error: "Missing fields" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    const addTherapist = await createTherapist(body);
+    const addUser = await createUser(body);
 
     return new Response(
-      JSON.stringify({ message: "Therapist added", therapist: addTherapist }),
+      JSON.stringify({ message: "User added", user: addUser }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
 

@@ -10,6 +10,15 @@ interface Therapist {
   password?: string;
 };
 
+interface iUser {
+  id?: number;
+  name: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  role?: "PROVIDER" | "ADMIN";
+};
+
 interface iNotification {
   id?: number;
   therapistId: number;
@@ -23,4 +32,4 @@ interface iForm {
   therapistId: number;
 }
 
-export type { Room, Therapist, iNotification, iForm };
+export type { Room, Therapist, iNotification, iForm, iUser };

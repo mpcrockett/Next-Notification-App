@@ -1,32 +1,36 @@
 "use server";
 import prisma from '../../../prisma/client';
-import { Therapist } from '../Types';
+import { iUser } from '../Types';
 
-export const createTherapist = async (therapist: Therapist) => {
+export const createUser = async (user: iUser) => {
   try {
-    const newTherapist = await prisma.therapist.create({
+    const newUser = await prisma.user.create({
       data: {
-        name: therapist.name,
-        email: therapist.email || '',
-        password: therapist.password || '',
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
       }
     });
-    return newTherapist
+    return newUser;
   } catch (error) {
     console.log(error)
   }
 };
 
-export const getTherapists = async () => {
+export const getProviders = async () => {
   try {
-    const therapists = await prisma.therapist.findMany({
+    const providers = await prisma.user.findMany({
       select: {
         id: true,
         name: true,
       },
+      where: {
+        role: 'PROVIDER',
+      }
     });
-    console.log("Hit the getTherapists function");
-    return therapists;
+    console.log("Hit the getTherapists function", providers);
+    return providers;
   } catch (error) {
     console.log(error);
   }
