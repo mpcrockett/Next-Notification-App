@@ -1,6 +1,7 @@
 "use client"
-import { Therapist, iForm } from "@/utils/Types";
-import { useEffect, useState } from "react";
+import useTherapists from "@/utils/hooks/useTherapists";
+import { iForm } from "@/utils/Types";
+import { useState } from "react";
 
 
 export default function Home() {
@@ -71,7 +72,6 @@ export default function Home() {
 
   return (
     <>
-      <OneTapComponent />
       <form>
         <select name="apptTime" value={formData.apptTime} onChange={handleChange}>
           <option value="">Appointment Time</option>
