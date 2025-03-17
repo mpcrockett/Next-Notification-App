@@ -6,6 +6,6 @@ export function middleware(req: NextRequest) {
   //   { message: 'Authorization Denied' },
   //   { status: 401}
   // )
-  return NextResponse.next()
+  return NextResponse.next();
 };
 

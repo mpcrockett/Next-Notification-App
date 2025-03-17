@@ -1,28 +1,15 @@
 "use client"
 import { Therapist, iForm } from "@/utils/Types";
 import { useEffect, useState } from "react";
-import OneTapComponent from "./oneTap";
+
 
 export default function Home() {
-  const [therapists, setTherapists] = useState<Therapist[]>([]);
+  const therapists = useTherapists();
   const [formData, setFormData] = useState<iForm>({
     apptTime: '',
     roomNumber: '',
     therapistId: 0,
   });
-
-  useEffect(() => {
-    fetch('/api/therapists')
-      .then(response => {
-        return response.json();
-      })
-      .then((data) => {
-        return setTherapists(data.therapists);
-      })
-      .catch((error) => {
-        console.error("Error during fetch or parsing:", error);
-      });
-  }, []);
 
   const [submitting, setSubmitting] = useState<boolean>(false)
 
