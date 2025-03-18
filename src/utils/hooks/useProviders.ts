@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { iUser } from '../Types';
 
-export default function useTherapists() {
-  const [therapists, setTherapists] = useState<iUser[]>([]);
+export default function useProviders() {
+  const [providers, setProviders] = useState<iUser[]>([]);
 
   useEffect(() => {
     fetch('/api/providers')
@@ -10,13 +10,13 @@ export default function useTherapists() {
         return response.json();
       })
       .then((data) => {
-        return setTherapists(data.providers);
+        return setProviders(data.providers);
       })
       .catch((error) => {
         console.error("Error fetching therapists", error);
       });
   }, []);
 
-  return therapists;
+  return providers;
 };
 

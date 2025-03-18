@@ -3,13 +3,6 @@ interface Room {
   name: string;
 }
 
-interface Therapist {
-  id: number;
-  name: string;
-  email?: string;
-  password?: string;
-};
-
 interface iUser {
   id?: number;
   name: string;
@@ -21,7 +14,7 @@ interface iUser {
 
 interface iNotification {
   id?: number;
-  therapistId: number;
+  userId: number;
   apptTime: string;
   roomNumber: string;
 }
@@ -29,7 +22,7 @@ interface iNotification {
 interface iForm {
   apptTime: string;
   roomNumber: string;
-  therapistId: number;
+  userId: number;
 }
 
-export type { Room, Therapist, iNotification, iForm, iUser };
+export type { Room, iNotification, iForm, iUser };

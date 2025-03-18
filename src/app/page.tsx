@@ -1,16 +1,17 @@
 "use client"
-import useTherapists from "@/utils/hooks/useTherapists";
+
 import { iForm } from "@/utils/Types";
 import { useState } from "react";
 import NotificationForm from "./components/notificationForm";
+import useProviders from "@/utils/hooks/useProviders";
 
 
 export default function Home() {
-  const therapists = useTherapists();
+  const providers = useProviders();
   const [formData, setFormData] = useState<iForm>({
     apptTime: '',
     roomNumber: '',
-    therapistId: 0,
+    userId: 0,
   });
 
   const [submitting, setSubmitting] = useState<boolean>(false)
@@ -38,7 +39,7 @@ export default function Home() {
     setFormData({
       apptTime: formData.apptTime,
       roomNumber: '',
-      therapistId: 0,
+      userId: 0,
     })
   };
 
@@ -50,7 +51,7 @@ export default function Home() {
   return (
     <>
       <NotificationForm 
-        therapists={therapists}
+        providers={providers}
         submitting={submitting}
         formData={formData}
         handleSubmit={handleSubmit}

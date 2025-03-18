@@ -14,23 +14,11 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model therapist {
-  id           Int            @id @default(autoincrement())
-  name         String
-  email        String         @unique
-  password     String
-  notification notification[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-}
-
 model notification {
   id          Int       @id @default(autoincrement())
-  therapistId Int
   userId      Int
   roomNumber  String
   apptTime    String
-  therapist   therapist @relation(fields: [therapistId], references: [id])
   user        user      @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

@@ -1,4 +1,4 @@
-import { iForm, Therapist } from "@/utils/Types";
+import { iForm, iUser } from "@/utils/Types";
 
 const times = [
   '07:00',
@@ -25,7 +25,7 @@ const rooms: string[] = [
 ];
 
 interface Props {
-  therapists: Therapist[]
+  providers: iUser[]
   submitting: boolean
   formData: iForm
   handleSubmit: (formData: iForm) => void
@@ -41,10 +41,10 @@ export default function NotificationForm(props: Props) {
           <option key={time} value={time}>{time}</option>
         ))}
       </select>
-      <select name="therapistId" value={props.formData.therapistId} onChange={props.handleChange}>
+      <select name="userId" value={props.formData.userId} onChange={props.handleChange}>
         <option value="">Therapist</option>
-        {props.therapists.length > 0 && props.therapists.map((therapist) => (
-          <option key={therapist.id} value={therapist.id}>{therapist.name}</option>
+        {props.providers.length > 0 && props.providers.map((provider) => (
+          <option key={provider.id} value={provider.id}>{provider.name}</option>
         ))}
       </select>
       <fieldset>

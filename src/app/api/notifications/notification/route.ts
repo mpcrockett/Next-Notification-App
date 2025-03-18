@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const body: iNotification = await req.json();
     console.log(body);
-    if (!body.therapistId || !body.apptTime || !body.roomNumber) {
+    if (!body.userId || !body.apptTime || !body.roomNumber) {
       return new Response(JSON.stringify({ error: "Missing fields" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
