@@ -52,7 +52,9 @@ const SignUpForm = () => {
     const { error } = schema.validate(values, { abortEarly: false });
     if (!error) return {};
 
-    const errors = {};
+    const errors: {
+      [key: string | number]: string;
+    } = {};
    
     for (const detail of error.details) {
       if (!errors[detail.path[0]]) {
