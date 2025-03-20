@@ -1,13 +1,15 @@
 "use client"
 
-import { iForm } from "@/utils/Types";
+import { iForm, iUser } from "@/utils/Types";
 import { useState } from "react";
 import NotificationForm from "./components/notificationForm";
 import useProviders from "@/utils/hooks/useProviders";
+import RegistrationForm from "./components/registrationForm";
 
 
 export default function Home() {
   const providers = useProviders();
+  const [user] = useState<iUser | null>(null);
   const [formData, setFormData] = useState<iForm>({
     apptTime: '',
     roomNumber: '',
@@ -50,6 +52,7 @@ export default function Home() {
 
   return (
     <>
+      {!user && <RegistrationForm />}
       <NotificationForm 
         providers={providers}
         submitting={submitting}
