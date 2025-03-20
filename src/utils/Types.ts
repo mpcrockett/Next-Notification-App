@@ -25,4 +25,13 @@ interface iForm {
   userId: number;
 }
 
-export type { Room, iNotification, iForm, iUser };
+interface iRegistrationForm {
+  email: string,
+  name: string,
+  phone: string,
+  password: string,
+  confirmPassword: string,
+  accessCode: string
+}
+
+export type { Room, iNotification, iForm, iUser, iRegistrationForm };
