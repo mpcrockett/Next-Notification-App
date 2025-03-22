@@ -1,6 +1,6 @@
 'use server';
 
-import { getProviders } from "@/utils/Models/therapists";
+import { getProviders } from "@/utils/Models/users";
 
 export async function GET() {
   try {

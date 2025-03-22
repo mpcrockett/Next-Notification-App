@@ -52,7 +52,9 @@ export default function Home() {
 
   return (
     <>
-      {!user && <RegistrationForm />}
+      {!user && (
+        <h2>Sign In with your <a href="/api/auth/signin">Google Account</a></h2>
+      )}
       <NotificationForm 
         providers={providers}
         submitting={submitting}

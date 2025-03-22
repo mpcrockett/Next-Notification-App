@@ -7,7 +7,7 @@ export const createNotification = async (notification: iNotification) => {
   try {
     return await prisma.notification.create({
       data: {
-        userId: Number.parseInt(notification.userId),
+        userId: notification.userId,
         apptTime: notification.apptTime,
         roomNumber: notification.roomNumber,
       },

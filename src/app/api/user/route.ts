@@ -1,6 +1,6 @@
 'use server';
 
-import { createUser } from "@/utils/Models/therapists";
+import { createUser } from "@/utils/Models/users";
 import { iUser } from "@/utils/Types";
 
 export async function POST(req: Request) {
