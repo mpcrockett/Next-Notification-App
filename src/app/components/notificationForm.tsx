@@ -1,4 +1,7 @@
-import { iForm, iUser } from "@/utils/Types";
+"use client";
+import useProviders from "@/utils/hooks/useProviders";
+import { iForm } from "@/utils/Types";
+import { useState } from "react";
 
 const times = [
   '07:00',
@@ -24,26 +27,59 @@ const rooms: string[] = [
   '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
 ];
 
-interface Props {
-  providers: iUser[]
-  submitting: boolean
-  formData: iForm
-  handleSubmit: (formData: iForm) => void
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
-};
+export default function NotificationForm() {
+    const providers = useProviders();
 
-export default function NotificationForm(props: Props) {
+    const [formData, setFormData] = useState<iForm>({
+      apptTime: '',
+      roomNumber: '',
+      userId: 0,
+    });
+  
+    const [submitting, setSubmitting] = useState<boolean>(false)
+  
+    const postNotification = async (form: iForm) => {
+      try {
+        console.log('post function')
+        return await fetch('/api/notifications/notification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    const handleSubmit = (formData: iForm) => {
+      setSubmitting(true)
+      postNotification(formData).then(() => {
+        setSubmitting(false);
+      });
+      setFormData({
+        apptTime: formData.apptTime,
+        roomNumber: '',
+        userId: 0,
+      })
+    };
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    };
   return (
     <form>
-      <select name="apptTime" value={props.formData.apptTime} onChange={props.handleChange}>
+      <select name="apptTime" value={formData.apptTime} onChange={handleChange}>
         <option value="">Appointment Time</option>
         {times.map((time) => (
           <option key={time} value={time}>{time}</option>
         ))}
       </select>
-      <select name="userId" value={props.formData.userId} onChange={props.handleChange}>
+      <select name="userId" value={formData.userId} onChange={handleChange}>
         <option value="">Therapist</option>
-        {props.providers.length > 0 && props.providers.map((provider) => (
+        {providers.length > 0 && providers.map((provider) => (
           <option key={provider.id} value={provider.id}>{provider.name}</option>
         ))}
       </select>
@@ -55,15 +91,15 @@ export default function NotificationForm(props: Props) {
               type="radio"
               name="roomNumber"
               value={roomNumber}
-              checked={props.formData.roomNumber === roomNumber}
-              onChange={props.handleChange}
+              checked={formData.roomNumber === roomNumber}
+              onChange={handleChange}
             />
             {roomNumber}
           </label>
         ))}
       </fieldset>
-      <button type="button" onClick={() => props.handleSubmit(props.formData)} disabled={props.submitting}>
-        {props.submitting ? 'Submitting...' : 'Submit'}
+      <button type="button" onClick={() => handleSubmit(formData)} disabled={submitting}>
+        {submitting ? 'Submitting...' : 'Submit'}
       </button>
     </form>
   )
