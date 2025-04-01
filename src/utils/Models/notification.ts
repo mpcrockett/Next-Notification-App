@@ -1,6 +1,6 @@
 "use server";
 import { Prisma } from "@prisma/client";
-import prisma from "../../../prisma/client";
+import prisma from "../client";
 import { iNotification} from "../Types";
 
 export const createNotification = async (notification: iNotification) => {

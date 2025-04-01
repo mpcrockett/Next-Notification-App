@@ -1,5 +1,5 @@
 "use server";
-import prisma from '../../../prisma/client';
+import prisma from '../client';
 import { iUser } from '../Types';
 
 export const createUser = async (user: iUser) => {

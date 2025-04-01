@@ -10,7 +10,8 @@ export default function useProviders() {
         return response.json();
       })
       .then((data) => {
-        return setProviders(data.providers);
+        if(data) return setProviders(data.providers);
+        return setProviders([]);
       })
       .catch((error) => {
         console.error("Error fetching therapists", error);
