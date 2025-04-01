@@ -4,12 +4,11 @@ interface Room {
 }
 
 interface iUser {
-  id?: number;
+  id?: string;
   name: string;
   email: string;
-  password: string;
   phoneNumber: string;
-  role?: "PROVIDER" | "ADMIN";
+  role?: "PROVIDER" | "ADMIN" | "USER";
 };
 
 interface iNotification {

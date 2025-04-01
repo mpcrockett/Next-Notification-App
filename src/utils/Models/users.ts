@@ -8,7 +8,6 @@ export const createUser = async (user: iUser) => {
       data: {
         name: user.name,
         email: user.email,
-        password: user.password,
         phoneNumber: user.phoneNumber,
       }
     });
