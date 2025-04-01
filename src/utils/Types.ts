@@ -13,7 +13,7 @@ interface iUser {
 
 interface iNotification {
   id?: number;
-  userId: number;
+  userId: string;
   apptTime: string;
   roomNumber: string;
 }

@@ -20,6 +20,7 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
+  Notification Notification[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -84,4 +85,14 @@ enum Role {
   PROVIDER
   ADMIN
   USER
+}
+
+model Notification {
+id  Int @id @default(autoincrement())  
+userId String
+apptTime String
+roomNumber String
+createdAt DateTime @default(now())
+
+user User @relation(fields: [userId], references: [id])
 }
