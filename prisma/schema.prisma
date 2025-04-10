@@ -15,6 +15,7 @@ model User {
   emailVerified DateTime?
   image         String?
   phoneNumber   String?
+  twilioOptedIn Boolean         @default(false)
   role          Role            @default(USER)
   accounts      Account[]
   sessions      Session[]
