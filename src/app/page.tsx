@@ -1,11 +1,9 @@
 'use client';
-import Link from "next/link";
 import NotificationForm from "./components/notificationForm";
-import { useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Home() {
   const { status, data: session } = useSession();
-
 
   return (
     <>
@@ -13,10 +11,29 @@ export default function Home() {
       {status === 'authenticated' ? 
         ( <>
             <h3>Welcome, {session?.user?.name}</h3>
-            <h3><Link href="/api/auth/signout">Sign Out</Link></h3>
+            {/* FIX: Use an interactive element with signOut() */}
+            <h3>
+              <button 
+                onClick={() => signOut()} 
+                style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer', textDecoration: 'underline', font: 'inherit' }}
+              >
+                Sign Out
+              </button>
+            </h3>
           </>
         )
-        : (<h3>Login with <Link href="/api/auth/signin">Google</Link></h3>)}
+        : (
+          /* FIX: Use an interactive element with signIn() */
+          <h3>
+            Login with{" "}
+            <button 
+              onClick={() => signIn("google")}
+              style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer', textDecoration: 'underline', font: 'inherit' }}
+            >
+              Google
+            </button>
+          </h3>
+        )}
       <NotificationForm />
     </>
   );
