@@ -1,5 +1,4 @@
 'use server';
-
 import { createUser } from "@/utils/Models/users";
 import { iUser } from "@/utils/Types";
 
@@ -9,7 +8,7 @@ export async function POST(req: Request) {
     
 
     // Simple validation
-    if (!body.name || !body.email || !body.password ||!body.phoneNumber) {
+    if (!body.name || !body.email || !body.phoneNumber) {
       return new Response(JSON.stringify({ error: "Missing fields" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
@@ -28,4 +27,6 @@ export async function POST(req: Request) {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
-}};
+  }
+};
+

@@ -47,10 +47,10 @@ export const updatePhoneNumber = async (id: string, phoneNumber: string) => {
   }
 };
 
-export const checkUser = async (id: string) => {
+export const checkUser = async (email: string) => {
   try {
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: { email: email },
     });
     if(!user) return false
     return true;

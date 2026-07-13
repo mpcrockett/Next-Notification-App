@@ -1,9 +1,11 @@
 'use client';
 import NotificationForm from "./components/notificationForm";
 import { useSession, signIn, signOut } from "next-auth/react";
+import useUser from '@/utils/hooks/useUser';
 
 export default function Home() {
   const { status, data: session } = useSession();
+  const user = useUser();
 
   return (
     <>
@@ -11,7 +13,9 @@ export default function Home() {
       {status === 'authenticated' ? 
         ( <>
             <h3>Welcome, {session?.user?.name}</h3>
-            {/* FIX: Use an interactive element with signOut() */}
+            <h3>
+              {user?.email}
+            </h3>
             <h3>
               <button 
                 onClick={() => signOut()} 
@@ -23,7 +27,6 @@ export default function Home() {
           </>
         )
         : (
-          /* FIX: Use an interactive element with signIn() */
           <h3>
             Login with{" "}
             <button 
