@@ -3,7 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function OnboardingPage() {
+interface Props {
+  onComplete: () => void;
+}
+
+export default function OnboardingPage({ onComplete }: Props) {
   const [phone, setPhone] = useState("");
   const [optIn, setOptIn] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,7 +26,7 @@ export default function OnboardingPage() {
     });
 
     if (res.ok) {
-      router.push("/"); 
+      onComplete(); 
     } else {
       alert("Something went wrong. Please try again.");
     }

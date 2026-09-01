@@ -4,6 +4,8 @@ import prisma from "@/utils/client";
 
 export async function POST(req: Request) {
 
+  const session = await getServerSession();
+
   if( !session || !session.user?.email ){
     return NextResponse.json({ error: "unauthorized"}, { status: 401 });
   }

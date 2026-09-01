@@ -53,7 +53,7 @@ export const checkUser = async (email: string) => {
       where: { email: email },
     });
     if(!user) return false
-    return true;
+    return user;
     } catch (error) {
     console.log(error)
   }
