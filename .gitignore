@@ -43,6 +43,5 @@ next-env.d.ts
 #VSCode
 .vscode/
 
-/src/components/ui/
-
 /docker-compose.postgres.yml
+/docker-compose.yml
