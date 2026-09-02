@@ -69,6 +69,7 @@ export default function NotificationForm() {
       const { name, value } = e.target;
       setFormData((prev) => ({ ...prev, [name]: value }));
     };
+    
   return (
     <form>
       <select name="apptTime" value={formData.apptTime} onChange={handleChange}>

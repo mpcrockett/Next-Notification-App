@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   onComplete: () => void;
@@ -11,7 +10,6 @@ export default function OnboardingPage({ onComplete }: Props) {
   const [phone, setPhone] = useState("");
   const [optIn, setOptIn] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

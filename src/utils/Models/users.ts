@@ -28,10 +28,23 @@ export const getProviders = async () => {
         role: 'PROVIDER',
       }
     });
-    console.log("Hit the getTherapists function", providers);
     return providers;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getProviderById = async (id: string) => {
+  try {
+    const provider = await prisma.user.findUnique({
+      where: {
+        id,
+        role: 'PROVIDER'
+      }
+    });
+    return provider;
+  } catch (error) {
+    console.log(error)
   }
 };
 
