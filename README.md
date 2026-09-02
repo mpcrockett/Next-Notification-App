@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PT Notifications
+
+An internal clinic tool that streamlines patient room assignment communication 
+between front desk staff and physical therapists.
+
+## The Problem
+
+In a busy physical therapy clinic, admins need a fast, reliable way to notify 
+therapists when their patients are ready and which room they've been assigned to. 
+Phone calls interrupt sessions. Walking to find a therapist wastes time. 
+
+PT Notifications solves this with a simple form that sends an instant SMS to the 
+right therapist in seconds.
+
+## Features
+
+- 🔐 Google OAuth login restricted to clinic domain
+- 📋 Simple form to select therapist, room number, and appointment time
+- 📱 Instant SMS notification via Twilio
+- ✅ SMS opt-in consent flow for providers
+- 🗃️ Notification history logged to database
+
+## Tech Stack
+
+- **Framework** — Next.js 16 (App Router)
+- **Language** — TypeScript
+- **Database** — PostgreSQL via Prisma ORM
+- **Auth** — NextAuth.js with Google OAuth
+- **SMS** — Twilio
+- **Deployment** — coming soon
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 22+
+- PostgreSQL database
+- Twilio account
+- Google OAuth credentials
 
+### Installation
+
+1. Clone the repo
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   git clone https://github.com/mpcrockett/Next-Notification-App.git
+   cd Next-Notification-App
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+```bash
+   npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables — create a `.env.local` file:
+DATABASE_URL=your_postgres_connection_string
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=your_twilio_number
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run database migrations
+```bash
+   npx prisma migrate dev
+```
 
-## Learn More
+5. Start the development server
+```bash
+   npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Sign in with your clinic Google account
+2. Complete profile setup with your phone number and SMS opt-in
+3. Select a therapist, room number, and appointment time
+4. Hit submit — the therapist receives an SMS instantly
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Background
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This app was designed and built by a physical therapy clinic admin who identified 
+a real workflow problem and built the solution. It is currently pending Twilio 
+toll-free number registration for production deployment.
