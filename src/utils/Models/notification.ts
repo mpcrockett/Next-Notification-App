@@ -10,6 +10,7 @@ export const createNotification = async (notification: iNotification) => {
         userId: notification.userId,
         apptTime: notification.apptTime,
         roomNumber: notification.roomNumber,
+        message: notification.message
       },
     });
   } catch (error) {

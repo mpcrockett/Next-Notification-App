@@ -4,10 +4,9 @@ import { iUser } from "@/utils/Types";
 
 export async function POST(req: Request) {
   try {
+    
     const body: iUser = await req.json();
     
-
-    // Simple validation
     if (!body.name || !body.email || !body.phoneNumber) {
       return new Response(JSON.stringify({ error: "Missing fields" }), {
         status: 400,

@@ -34,13 +34,15 @@ export default function NotificationForm() {
       apptTime: '',
       roomNumber: '',
       userId: 0,
+      message: ''
     });
+
+    const [includeMessage, setIncludeMessage] =useState<boolean>(false);
   
     const [submitting, setSubmitting] = useState<boolean>(false)
   
     const postNotification = async (form: iForm) => {
       try {
-        console.log('post function')
         return await fetch('/api/notifications/notification', {
           method: 'POST',
           headers: {
@@ -58,18 +60,20 @@ export default function NotificationForm() {
       postNotification(formData).then(() => {
         setSubmitting(false);
       });
-      setFormData({
+       setFormData({
         apptTime: formData.apptTime,
         roomNumber: '',
         userId: 0,
-      })
+        message: ''
+      });
+      setIncludeMessage(false);
     };
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
       setFormData((prev) => ({ ...prev, [name]: value }));
     };
-    
+
   return (
     <form>
       <select name="apptTime" value={formData.apptTime} onChange={handleChange}>
@@ -99,6 +103,45 @@ export default function NotificationForm() {
           </label>
         ))}
       </fieldset>
+        <fieldset>
+        <legend>Include Message?</legend>
+          <label key="no">
+            <input
+              type="radio"
+              name="nolabel"
+              value='No'
+              checked={includeMessage === false}
+              onChange={() => {
+                setIncludeMessage(false)
+              }}
+            />
+            No
+          </label>
+          <label key="yes">
+            <input
+              type="radio"
+              name="yeslabel"
+              value='Yes'
+              checked={includeMessage === true}
+              onChange={() => {
+                setIncludeMessage(true)
+              }}
+            />
+            Yes
+          </label>
+      </fieldset>
+      {includeMessage && 
+      <input
+        type="text"
+        id="message"
+        name="message"
+        value={formData.message}
+        onChange={handleChange} 
+        placeholder="Type your message.."
+        minLength={4}
+        maxLength={250}
+       />}
+    
       <button type="button" onClick={() => handleSubmit(formData)} disabled={submitting}>
         {submitting ? 'Submitting...' : 'Submit'}
       </button>

@@ -93,6 +93,7 @@ userId String
 apptTime String
 roomNumber String
 createdAt DateTime @default(now())
+message String?
 
 user User @relation(fields: [userId], references: [id])
 }

@@ -16,12 +16,14 @@ interface iNotification {
   userId: string;
   apptTime: string;
   roomNumber: string;
+  message?: string
 }
 
 interface iForm {
   apptTime: string;
   roomNumber: string;
   userId: number;
+  message?: string;
 }
 
 interface iRegistrationForm {
