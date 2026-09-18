@@ -8,6 +8,7 @@ interface iUser {
   name: string;
   email: string;
   phoneNumber: string;
+  onboarded: boolean;
   role?: "PROVIDER" | "ADMIN" | "USER";
 };
 

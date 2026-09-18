@@ -8,8 +8,6 @@ export async function POST(req: Request) {
   try {
     const body: iNotification = await req.json();
 
-    // console.log(body);
-
     if (!body.userId || !body.apptTime || !body.roomNumber) {
       return new Response(JSON.stringify({ error: "Missing fields" }), {
         status: 400,
@@ -26,14 +24,7 @@ export async function POST(req: Request) {
       });
     }
 
-    if (!provider.twilioOptedIn || !provider.phoneNumber) {
-      return new Response(JSON.stringify({ error: "Provider not opted in or missing phone number" }), {
-        status: 403,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    await fetch(`https://ntfy.sh/${process.env.NTFY_TEST_URL}`, {
+    await fetch(`https://ntfy.sh/${body.userId}`, {
       method: 'POST',
       body: body.message || '..',
        headers: {

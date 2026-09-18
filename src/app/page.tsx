@@ -19,14 +19,14 @@ export default function Home() {
         </h3>
       )}
 
-      {status === 'authenticated' && !user?.phoneNumber && (
+      {status === 'authenticated' && !user?.onboarded && (
         <>
           <h3>Welcome, {session?.user?.name}</h3>
-          <OnboardingPage onComplete={refetch} />
+          <OnboardingPage onComplete={refetch} userId={user?.id} />
         </>
       )}
 
-      {status === 'authenticated' && user?.phoneNumber && (
+      {status === 'authenticated' && user?.onboarded && (
         <>
          <button onClick={() => signOut()}>Sign Out</button>
         <NotificationForm />

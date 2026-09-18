@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/utils/client";
 
-export async function POST(req: Request) {
+export async function POST() {
 
   const session = await getServerSession();
 
@@ -11,13 +11,10 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { phone, optIn } = await req.json();
-
-    await prisma.user.update({
+      await prisma.user.update({
       where: { email: session.user.email },
       data: {
-        phoneNumber: phone,
-        twilioOptedIn: optIn
+        onboarded: true
       },
     });
 
