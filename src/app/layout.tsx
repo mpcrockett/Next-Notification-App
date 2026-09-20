@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className = {fonts.rubik.variable} suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning>
         <ChakraProviders>
           <AuthProvider>
             <main>{children}</main>

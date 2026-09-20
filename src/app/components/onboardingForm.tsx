@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { Box, Button, Divider, Heading, Link, Radio, RadioGroup, Stack, Text, VStack } from '@chakra-ui/react'
 
 interface Props {
   onComplete: () => void;
@@ -10,6 +11,7 @@ interface Props {
 export default function OnboardingPage({ onComplete, userId }: Props) {
   const [isProvider, setIsProvider] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [testSent, setTestSent] = useState(false);
 
   const handleTestClick = async () => {
     setLoading(true);
@@ -20,6 +22,7 @@ export default function OnboardingPage({ onComplete, userId }: Props) {
     });
 
     if (res.ok) {
+      setTestSent(true);
     } else {
       alert("Something went wrong. Please try again.");
     }
@@ -31,10 +34,7 @@ export default function OnboardingPage({ onComplete, userId }: Props) {
     const res = await fetch('/api/user/onboard', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        userId,
-        isProvider
-      }) 
+      body: JSON.stringify({ userId, isProvider })
     });
 
     if (res.ok) {
@@ -46,40 +46,68 @@ export default function OnboardingPage({ onComplete, userId }: Props) {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
-      <h2>Complete Your Profile</h2>
+    <Box maxW="400px" mx="auto" mt="50px" textAlign="center">
+      <Heading size="md" mb={6}>Complete Your Profile</Heading>
 
-      <fieldset>
-        <legend>Select your role:</legend>
+      <VStack spacing={6} align="stretch">
+        <Box>
+          <Text fontWeight="semibold" mb={2}>Select your role:</Text>
+          <RadioGroup value={isProvider ? 'pt' : 'admin'}>
+            <Stack direction="row" justify="center" spacing={6}>
+              <Radio value="pt" onChange={() => setIsProvider(true)}>PT</Radio>
+              <Radio value="admin" onChange={() => setIsProvider(false)}>Admin</Radio>
+            </Stack>
+          </RadioGroup>
+        </Box>
 
-        <div>
-          <input type="radio" id="pt" name="pt" value="pt" onChange={() => setIsProvider(true)} checked={isProvider}/>
-          <label key="pt">PT</label>
-        </div>
+        {isProvider && (
+          <Stack spacing={3}>
+            <Divider />
+            <Box>
+              <Text mb={2}>Providers, sign up to receive your notifications:</Text>
+              <Stack direction="row" justify="center" spacing={4}>
+                <Link
+                  href="https://apps.apple.com/us/app/ntfy/id1625396347"
+                  color="blue.500"
+                  isExternal
+                >
+                  Download for iOS or Mac
+                </Link>
+                <Link
+                  href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
+                  color="blue.500"
+                  isExternal
+                >
+                  Download for Android
+                </Link>
+              </Stack>
+              <Text mt={3} fontSize="sm" color="gray.500">
+                Your personal topic is <strong>{userId}</strong>
+              </Text>
+            </Box>
+            <Button
+              colorScheme={testSent ? 'green' : 'gray'}
+              variant="outline"
+              onClick={handleTestClick}
+              isLoading={loading}
+              loadingText="Sending..."
+            >
+              {testSent ? '✓ Test Sent!' : 'Send a Test Notification'}
+            </Button>
+            <Divider />
+          </Stack>
+        )}
 
-        <div>
-          <input type="radio" id="admin" name="admin" value="admin" onChange={() => setIsProvider(false)} checked={!isProvider}/>
-          <label key="admin">Admin</label>
-        </div>
-      </fieldset>
-
-
-      <p>Sign up to receive your notifications</p>
-
-
-      <a href="https://apps.apple.com/us/app/ntfy/id1625396347">Download ntfy.sh</a>
-      <p>Your personal topic is {userId}</p>
-
-      <button onClick={handleTestClick}>Send a Test Notification</button>
-
-      <button onClick={handleCompleteClick}>Complete Onboarding</button>
-
-    </div>
+        <Button
+          colorScheme="blue"
+          onClick={handleCompleteClick}
+          isLoading={loading}
+          loadingText="Saving..."
+          isDisabled={isProvider && !testSent}
+        >
+          Complete Onboarding
+        </Button>
+      </VStack>
+    </Box>
   );
-
-
-
-
-
-
 }

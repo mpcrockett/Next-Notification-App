@@ -23,7 +23,7 @@ interface iNotification {
 interface iForm {
   apptTime: string;
   roomNumber: string;
-  userId: number;
+  userId: string;
   message?: string;
 }
 
