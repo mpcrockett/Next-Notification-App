@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function OnboardingPage({ onComplete, userId }: Props) {
-  const [role, setRole] = useState('');
+  const [isProvider, setIsProvider] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleTestClick = async () => {
@@ -26,16 +26,19 @@ export default function OnboardingPage({ onComplete, userId }: Props) {
     setLoading(false);
   };
 
-   const handleCompleteClick = async () => {
+  const handleCompleteClick = async () => {
     setLoading(true);
     const res = await fetch('/api/user/onboard', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({  })
+      body: JSON.stringify({ 
+        userId,
+        isProvider
+      }) 
     });
 
     if (res.ok) {
-      onComplete(); 
+      onComplete();
     } else {
       alert("Something went wrong. Please try again.");
     }
@@ -45,16 +48,32 @@ export default function OnboardingPage({ onComplete, userId }: Props) {
   return (
     <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
       <h2>Complete Your Profile</h2>
+
+      <fieldset>
+        <legend>Select your role:</legend>
+
+        <div>
+          <input type="radio" id="pt" name="pt" value="pt" onChange={() => setIsProvider(true)} checked={isProvider}/>
+          <label key="pt">PT</label>
+        </div>
+
+        <div>
+          <input type="radio" id="admin" name="admin" value="admin" onChange={() => setIsProvider(false)} checked={!isProvider}/>
+          <label key="admin">Admin</label>
+        </div>
+      </fieldset>
+
+
       <p>Sign up to receive your notifications</p>
 
-  
+
       <a href="https://apps.apple.com/us/app/ntfy/id1625396347">Download ntfy.sh</a>
       <p>Your personal topic is {userId}</p>
 
       <button onClick={handleTestClick}>Send a Test Notification</button>
 
       <button onClick={handleCompleteClick}>Complete Onboarding</button>
-        
+
     </div>
   );
 

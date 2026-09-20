@@ -71,3 +71,17 @@ export const checkUser = async (email: string) => {
     console.log(error)
   }
 };
+
+export const setIsProvider = async (userId: string) => {
+  try {
+    await prisma.user.update({
+      where: {
+        id: userId
+      },
+        data: { role: 'PROVIDER' }
+      });
+    return 
+  } catch (error) {
+    console.log(error)
+  }
+};

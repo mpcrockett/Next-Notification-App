@@ -110,7 +110,7 @@ export default function NotificationForm() {
               type="radio"
               name="nolabel"
               value='No'
-              checked={includeMessage === false}
+              checked={includeMessage}
               onChange={() => {
                 setIncludeMessage(false)
               }}
@@ -122,7 +122,7 @@ export default function NotificationForm() {
               type="radio"
               name="yeslabel"
               value='Yes'
-              checked={includeMessage === true}
+              checked={!includeMessage}
               onChange={() => {
                 setIncludeMessage(true)
               }}
