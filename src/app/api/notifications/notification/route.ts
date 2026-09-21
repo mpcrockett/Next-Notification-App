@@ -3,6 +3,7 @@
 import { createNotification } from "@/utils/Models/notification";
 import { getProviderById } from "@/utils/Models/users";
 import { iNotification } from "@/utils/Types";
+import logger from '../../../../utils/logger';
 
 export async function POST(req: Request) {
   try {
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
 
   } catch (error) {
 
-    console.log(error);
+    logger.error(error);
 
     return new Response(JSON.stringify({ error: error }), {
       status: 500,

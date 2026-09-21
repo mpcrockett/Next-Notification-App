@@ -1,6 +1,7 @@
 "use server";
 import prisma from '../client';
 import { iUser } from '../Types';
+import logger from '../logger';
 
 export const createUser = async (user: iUser) => {
   try {
@@ -13,7 +14,7 @@ export const createUser = async (user: iUser) => {
     });
     return newUser;
   } catch (error) {
-    console.log(error)
+    logger.error(error)
   }
 };
 
@@ -30,7 +31,7 @@ export const getProviders = async () => {
     });
     return providers;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 
@@ -44,7 +45,7 @@ export const getProviderById = async (id: string) => {
     });
     return provider;
   } catch (error) {
-    console.log(error)
+    logger.error(error)
   }
 };
 
@@ -56,7 +57,7 @@ export const updatePhoneNumber = async (id: string, phoneNumber: string) => {
     });
     return updatedUser;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 
@@ -68,7 +69,7 @@ export const checkUser = async (email: string) => {
     if(!user) return false
     return user;
     } catch (error) {
-    console.log(error)
+    logger.error(error)
   }
 };
 
@@ -82,6 +83,6 @@ export const setIsProvider = async (userId: string) => {
       });
     return 
   } catch (error) {
-    console.log(error)
+    logger.error(error)
   }
 };

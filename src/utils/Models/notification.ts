@@ -2,6 +2,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../client";
 import { iNotification} from "../Types";
+import logger from '../logger';
 
 export const createNotification = async (notification: iNotification) => {
   try {
@@ -15,11 +16,11 @@ export const createNotification = async (notification: iNotification) => {
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.error('Prisma error:', error.message);
+      logger.error('Prisma error:', error.message);
       return { error: error.message, code: error.code };
     }
 
-    console.error('Unknown error:', error);
+    logger.error('Unknown error:', error);
     return { error: 'An unexpected error occurred' };
   }
 };
@@ -29,10 +30,10 @@ export const getNotifications = async () => {
     return await prisma.notification.findMany();
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.error('Prisma error:', error.message);
+      logger.error('Prisma error:', error.message);
       return { error: error.message, code: error.code };
     }
-    console.error('Unknown error:', error);
+    logger.error('Unknown error:', error);
     return { error: 'An unexpected error occurred' };
   }
 };
