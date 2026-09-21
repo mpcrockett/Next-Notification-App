@@ -1,5 +1,5 @@
 'useClient';
-import { Avatar, Box, Flex, Text, Spacer, Button } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, Spacer, Button } from '@chakra-ui/react';
 
 interface Props {
   name: string,
@@ -11,7 +11,8 @@ export function Navbar(props: Props) {
   return (
     <Box bg="blue.600" px={6} py={3} shadow="md">
       <Flex align="center">
-        <Avatar size="sm" src={props.image} mr={3} />
+        <Image src='/logo.png' alt="Clinic logo" h="40px" />
+        <Spacer />
         <Text color="white" fontWeight="semibold">Welcome, {props.name}!</Text>
         <Spacer />
         <Button
