@@ -14,6 +14,14 @@ export const authOptions: NextAuthOptions = {
 	session: {
 		strategy: "jwt",
 	},
+	callbacks: {
+  	async signIn({ account, profile }) {
+    	if (account?.provider === 'google') {
+      	return profile?.email?.endsWith('@finishlinept.com') ?? false;
+    	}
+    	return true;
+  },
+}
 }
 
 const handler = NextAuth(authOptions);
