@@ -113,6 +113,7 @@ export default function NotificationForm() {
         </Box>
 
         {includeMessage && (
+          <>
           <Input
             type="text"
             name="message"
@@ -121,6 +122,9 @@ export default function NotificationForm() {
             placeholder="Type your message..."
             size="sm"
           />
+          <Text>**Do not include identifying information or patient health data in this message.</Text>
+          </>
+          
         )}
 
         <Button
