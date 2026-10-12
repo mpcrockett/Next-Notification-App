@@ -26,15 +26,18 @@ export default function NotificationForm() {
 
   const [includeMessage, setIncludeMessage] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [notificationSent, setNotificationSent] = useState(false);
+
 
   const handleSubmit = async (formData: iForm) => {
     setSubmitting(true);
     try {
-      await fetch('/api/notifications/notification', {
+      const res = await fetch('/api/notifications/notification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+      if(res.ok) setNotificationSent(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -46,6 +49,7 @@ export default function NotificationForm() {
         message: ''
       });
       setIncludeMessage(false);
+      setTimeout(() => setNotificationSent(false), 1000);
     }
   };
 
@@ -120,12 +124,12 @@ export default function NotificationForm() {
         )}
 
         <Button
-          colorScheme="blue"
+          colorScheme={notificationSent ? 'green' : 'gray'}
           onClick={() => handleSubmit(formData)}
           isLoading={submitting}
-          loadingText="Submitting..."
+          loadingText="Sending..."
         >
-          Submit
+         {notificationSent ? '✓ Notification Sent!' : 'Send Notification'}
         </Button>
 
       </VStack>
