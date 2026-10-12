@@ -27,7 +27,10 @@ export const getProviders = async () => {
       },
       where: {
         role: 'PROVIDER',
-      }
+      },
+      orderBy: {
+        name: "asc",
+      },
     });
     return providers;
   } catch (error) {

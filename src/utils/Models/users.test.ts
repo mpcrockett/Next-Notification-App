@@ -1,5 +1,6 @@
 import { createUser, getProviders, getProviderById, updatePhoneNumber, checkUser, setIsProvider } from './users';
 import prisma from '../client';
+import logger from '../logger';
 
 
 jest.mock('../client', () => ({
@@ -9,6 +10,10 @@ jest.mock('../client', () => ({
     findUnique: jest.fn(),
     update: jest.fn(),
   },
+}));
+
+jest.mock('../logger', () => ({
+  error: jest.fn(),
 }));
 
 const mockPrisma = prisma as jest.Mocked<typeof prisma>;
@@ -55,7 +60,6 @@ describe('createUser', () => {
   });
 
   it('logs error and returns undefined when Prisma throws', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (mockPrisma.user.create as jest.Mock).mockRejectedValue(new Error('DB error'));
 
     const result = await createUser({
@@ -65,8 +69,7 @@ describe('createUser', () => {
     });
 
     expect(result).toBeUndefined();
-    expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy.mockRestore();
+    expect(logger.error).toHaveBeenCalled();
   });
 });
 
@@ -81,8 +84,29 @@ describe('getProviders', () => {
     expect(mockPrisma.user.findMany).toHaveBeenCalledWith({
       select: { id: true, name: true },
       where: { role: 'PROVIDER' },
+      orderBy: { name: 'asc' },
     });
     expect(result).toEqual(mockProviders);
+  });
+
+  it('returns providers in alphabetical order by name', async () => {
+    const mockProviders = [
+      { id: 'cuid-1', name: 'Alice Jones' },
+      { id: 'cuid-2', name: 'Jane Smith' },
+      { id: 'cuid-3', name: 'Zoe Adams' },
+    ];
+    (mockPrisma.user.findMany as jest.Mock).mockResolvedValue(mockProviders);
+
+    const result = await getProviders();
+
+    expect(mockPrisma.user.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { name: 'asc' } })
+    );
+    expect(result?.map((provider) => provider.name)).toEqual([
+      'Alice Jones',
+      'Jane Smith',
+      'Zoe Adams',
+    ]);
   });
 
   it('returns empty array when no providers exist', async () => {
@@ -94,13 +118,11 @@ describe('getProviders', () => {
   });
 
   it('logs error and returns undefined when Prisma throws', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (mockPrisma.user.findMany as jest.Mock).mockRejectedValue(new Error('DB error'));
 
     const result = await getProviders();
 
     expect(result).toBeUndefined();
-    consoleSpy.mockRestore();
   });
 });
 
@@ -126,13 +148,11 @@ describe('getProviderById', () => {
   });
 
   it('logs error and returns undefined when Prisma throws', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (mockPrisma.user.findUnique as jest.Mock).mockRejectedValue(new Error('DB error'));
 
     const result = await getProviderById('cuid-123');
 
     expect(result).toBeUndefined();
-    consoleSpy.mockRestore();
   });
 });
 
@@ -152,13 +172,11 @@ describe('updatePhoneNumber', () => {
   });
 
   it('logs error and returns undefined when Prisma throws', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (mockPrisma.user.update as jest.Mock).mockRejectedValue(new Error('DB error'));
 
     const result = await updatePhoneNumber('cuid-123', '+19995551234');
 
     expect(result).toBeUndefined();
-    consoleSpy.mockRestore();
   });
 });
 
@@ -184,13 +202,11 @@ describe('checkUser', () => {
   });
 
   it('logs error and returns undefined when Prisma throws', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (mockPrisma.user.findUnique as jest.Mock).mockRejectedValue(new Error('DB error'));
 
     const result = await checkUser('jane@clinic.com');
 
     expect(result).toBeUndefined();
-    consoleSpy.mockRestore();
   });
 });
 
@@ -208,12 +224,10 @@ describe('setIsProvider', () => {
   });
 
   it('logs error and returns undefined when Prisma throws', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     (mockPrisma.user.update as jest.Mock).mockRejectedValue(new Error('DB error'));
 
     await setIsProvider('cuid-123');
 
-    expect(consoleSpy).toHaveBeenCalled();
-    consoleSpy.mockRestore();
+    expect(logger.error).toHaveBeenCalled();
   });
 });

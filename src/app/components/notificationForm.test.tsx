@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import NotificationForm from './notificationForm.tsx';
@@ -30,7 +33,7 @@ describe('NotificationForm', () => {
     expect(screen.getByText('Appointment Time')).toBeInTheDocument();
     expect(screen.getByText('Therapist')).toBeInTheDocument();
     expect(screen.getByText('Select a Room')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /send notification/i })).toBeInTheDocument();
   });
 
   it('allows user interaction and submits the form', async () => {
@@ -44,7 +47,7 @@ describe('NotificationForm', () => {
 
     fireEvent.click(screen.getByLabelText('1'));
 
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    const submitButton = screen.getByRole('button', { name: /send notification/i });
     fireEvent.click(submitButton);
 
     expect(submitButton).toBeDisabled();
@@ -72,12 +75,12 @@ describe('NotificationForm', () => {
 
     fireEvent.click(screen.getByLabelText('2'));
 
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    const submitButton = screen.getByRole('button', { name: /send notification/i });
     fireEvent.click(submitButton);
 
     expect(submitButton).toBeDisabled();
-    expect(submitButton).toHaveTextContent('Submitting...');
+    expect(submitButton).toHaveTextContent('Sending...');
 
-    await waitFor(() => expect(submitButton).toHaveTextContent('Submit'));
+    await waitFor(() => expect(submitButton).toHaveTextContent('Send Notification'));
   });
 });

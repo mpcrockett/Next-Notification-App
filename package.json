@@ -7,9 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down",
-    "test": "docker:up && npx prisma migrate deploy && jest -i"
+    "test": "jest"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
