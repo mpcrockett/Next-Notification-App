@@ -3,7 +3,7 @@ import NotificationForm from "./components/notificationForm";
 import { useSession, signIn, signOut } from "next-auth/react";
 import useUser from '@/utils/hooks/useUser';
 import OnboardingPage from "./components/onboardingForm";
-import { Button, Box } from '@chakra-ui/react';
+import { Button, Box, Text } from '@chakra-ui/react';
 import { Navbar } from "./components/navBar";
 
 export default function Home() {
@@ -26,6 +26,7 @@ export default function Home() {
         <Navbar name={session?.user?.name ?? ''} image={session?.user?.image ?? ''} signOut={signOut}/>
         {!user?.onboarded && <OnboardingPage onComplete={refetch} userId={user?.id} /> }
         { user?.onboarded && <NotificationForm /> }
+        { user?.role === 'PROVIDER' && <Text padding='2'>Your subscription topic is {user.id}. Copy and paste this into ntfy.sh.</Text> }
       </Box>
       }
       
