@@ -37,3 +37,4 @@ export const getNotifications = async () => {
     return { error: 'An unexpected error occurred' };
   }
 };
+
