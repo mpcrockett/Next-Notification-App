@@ -1,11 +1,10 @@
 'use client';
-import NotificationForm from "./components/notificationForm";
-import NotificationTable from "./components/notificationTable";
 import { useSession, signIn, signOut } from "next-auth/react";
 import useUser from '@/utils/hooks/useUser';
 import OnboardingPage from "./components/onboardingForm";
 import { Button, Box, Text } from '@chakra-ui/react';
 import { Navbar } from "./components/navBar";
+import Main from "./components/main";
 
 export default function Home() {
   const { status, data: session } = useSession();
@@ -26,19 +25,10 @@ export default function Home() {
       <Box>
         <Navbar name={session?.user?.name ?? ''} image={session?.user?.image ?? ''} signOut={signOut}/>
         {!user?.onboarded && <OnboardingPage onComplete={refetch} userId={user?.id} /> }
-        { user?.onboarded &&  (
-          <div>
-            <NotificationForm />
-            <NotificationTable />
-          </div>
-          
-        )}
+        { user?.onboarded &&  <Main /> }
         { user?.role === 'PROVIDER' && <Text padding='2'>Your subscription topic is {user.id}. Copy and paste this into ntfy.sh.</Text> }
       </Box>
       }
-      
-
-
     </>
   );
 }
