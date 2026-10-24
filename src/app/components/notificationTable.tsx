@@ -1,6 +1,10 @@
 import useNotifications from "@/utils/hooks/useNotifications"
 import { Avatar, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react"
 
+const timeFormatter = new Intl.DateTimeFormat(undefined, {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
 
 export default function NotificationTable() {
   const notifications = useNotifications();
@@ -27,7 +31,7 @@ export default function NotificationTable() {
               </Td>
               <Td>{x.apptTime}</Td>
               <Td>{x.roomNumber}</Td>
-              <Td>{x.createdAt}</Td>
+              <Td>{x.createdAt ? timeFormatter.format(new Date(x.createdAt)) : "—"}</Td>
             </Tr> )
           )}
         </Tbody>
