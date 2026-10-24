@@ -30,7 +30,12 @@ export const getNotifications = async () => {
     return await prisma.notification.findMany({
       include: {
         user: true
-      }
+      },
+      orderBy: [
+        {
+          createdAt: "desc"
+        }
+      ]
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
