@@ -10,6 +10,7 @@ interface iUser {
   phoneNumber: string;
   onboarded?: boolean;
   role?: "PROVIDER" | "ADMIN" | "USER";
+  image?: string;
 };
 
 interface iNotification {
@@ -19,6 +20,7 @@ interface iNotification {
   roomNumber: string;
   message?: string;
   createdAt?: string
+  user?: iUser
 }
 
 interface iForm {

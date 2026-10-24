@@ -1,5 +1,5 @@
 import useNotifications from "@/utils/hooks/useNotifications"
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { Avatar, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react"
 
 
 export default function NotificationTable() {
@@ -19,7 +19,12 @@ export default function NotificationTable() {
         <Tbody>
           {notifications.map((x) => ( 
             <Tr key={x.id}>
-              <Td>{x.userId}</Td>
+              <Td py={2}>
+                <HStack spacing={3}>
+                  <Avatar size="sm" name={x.user?.name} src={x.user?.image} />
+                  <Text>{x.user?.name}</Text>
+                </HStack>
+              </Td>
               <Td>{x.apptTime}</Td>
               <Td>{x.roomNumber}</Td>
               <Td>{x.createdAt}</Td>

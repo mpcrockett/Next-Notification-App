@@ -27,7 +27,11 @@ export const createNotification = async (notification: iNotification) => {
 
 export const getNotifications = async () => {
   try {
-    return await prisma.notification.findMany();
+    return await prisma.notification.findMany({
+      include: {
+        user: true
+      }
+    });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       logger.error(`Prisma error: ${error.message}`);
