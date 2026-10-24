@@ -1,11 +1,20 @@
-'use server';
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 import { createNotification } from "@/utils/Models/notification";
 import { getProviderById } from "@/utils/Models/users";
 import { iNotification } from "@/utils/Types";
 import logger from '../../../../utils/logger';
 
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const body: iNotification = await req.json();
 

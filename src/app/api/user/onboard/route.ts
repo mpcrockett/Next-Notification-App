@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 import prisma from "@/utils/client";
 import { setIsProvider } from "@/utils/Models/users";
 
@@ -7,16 +8,16 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
-  if( !session || !session.user?.email ){
+  if( !session?.user?.id ){
     return NextResponse.json({ error: "unauthorized"}, { status: 401 });
   }
 
   try {
-    if(body.isProvider) await setIsProvider(body.userId);
+    if(body.isProvider) await setIsProvider(session.user.id);
     await prisma.user.update({
-      where: { email: session.user.email },
+      where: { id: session.user.id },
       data: {
         onboarded: true
       },

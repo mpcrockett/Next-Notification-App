@@ -1,15 +1,18 @@
-export async function POST(req: Request) {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
+
+export async function POST() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
-    const body = await req.json();
-
-    if (!body.userId) {
-      return new Response(JSON.stringify({ error: "Missing fields" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    const ntfyRes = await fetch(`https://ntfy.sh/${body.userId}`, {
+    const ntfyRes = await fetch(`https://ntfy.sh/${session.user.id}`, {
       method: 'POST',
       body: 'Hi, New User!',
       headers: {

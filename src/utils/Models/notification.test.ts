@@ -113,6 +113,24 @@ describe('getNotifications', () => {
     expect(args.where.createdAt.gte).toEqual(since);
   });
 
+  it('filters by userId when one is given', async () => {
+    (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue([]);
+
+    await getNotifications(new Date(), 'cuid-123');
+
+    const args = (mockPrisma.notification.findMany as jest.Mock).mock.calls.at(-1)[0];
+    expect(args.where.userId).toBe('cuid-123');
+  });
+
+  it('does not filter by userId when none is given', async () => {
+    (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue([]);
+
+    await getNotifications(new Date());
+
+    const args = (mockPrisma.notification.findMany as jest.Mock).mock.calls.at(-1)[0];
+    expect(args.where).not.toHaveProperty('userId');
+  });
+
   it('returns an empty array when no notifications exist', async () => {
     (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue([]);
 

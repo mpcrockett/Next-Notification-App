@@ -1,10 +1,6 @@
 import useNotifications from "@/utils/hooks/useNotifications"
+import { timeFormatter } from "@/utils/timeFormatter";
 import { Avatar, Box, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react"
-
-const timeFormatter = new Intl.DateTimeFormat(undefined, {
-  dateStyle: "short",
-  timeStyle: "short",
-});
 
 export default function NotificationTable() {
   const notifications = useNotifications();

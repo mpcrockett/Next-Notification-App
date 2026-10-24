@@ -19,8 +19,7 @@ export default function useNotifications() {
       try {
         const startOfToday = new Date();
         startOfToday.setHours(0, 0, 0, 0);
-        const params = new URLSearchParams({ since: startOfToday.toISOString() });
-        const response = await fetch(`/api/notifications?${params}`, { signal: controller.signal });
+        const params = new URLSearchParams({ since: startOfToday.toISOString() });        const response = await fetch(`/api/notifications?${params}`, { signal: controller.signal });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         if (Array.isArray(data?.notifications)) {
