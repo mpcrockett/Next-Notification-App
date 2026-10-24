@@ -25,11 +25,16 @@ export const createNotification = async (notification: iNotification) => {
   }
 };
 
-export const getNotifications = async () => {
+export const getNotifications = async (since: Date) => {
   try {
     return await prisma.notification.findMany({
+      where: {
+        createdAt: { gte: since }
+      },
       include: {
-        user: true
+        user: {
+          select: { name: true, image: true }
+        }
       },
       orderBy: [
         {

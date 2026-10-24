@@ -97,16 +97,26 @@ describe('getNotifications', () => {
     const mockList = [mockNotification];
     (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue(mockList);
 
-    const result = await getNotifications();
+    const result = await getNotifications(new Date());
 
     expect(mockPrisma.notification.findMany).toHaveBeenCalled();
     expect(result).toEqual(mockList);
   });
 
+  it('only queries notifications created since the given date', async () => {
+    (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue([]);
+    const since = new Date('2026-10-24T04:00:00.000Z');
+
+    await getNotifications(since);
+
+    const args = (mockPrisma.notification.findMany as jest.Mock).mock.calls.at(-1)[0];
+    expect(args.where.createdAt.gte).toEqual(since);
+  });
+
   it('returns an empty array when no notifications exist', async () => {
     (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue([]);
 
-    const result = await getNotifications();
+    const result = await getNotifications(new Date());
 
     expect(result).toEqual([]);
   });
@@ -119,7 +129,7 @@ describe('getNotifications', () => {
     });
     (mockPrisma.notification.findMany as jest.Mock).mockRejectedValue(prismaError);
 
-    const result = await getNotifications();
+    const result = await getNotifications(new Date());
 
     expect(result).toEqual({ error: 'Connection failed', code: 'P1001' });
     consoleSpy.mockRestore();
@@ -129,7 +139,7 @@ describe('getNotifications', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     (mockPrisma.notification.findMany as jest.Mock).mockRejectedValue(new Error('Unknown'));
 
-    const result = await getNotifications();
+    const result = await getNotifications(new Date());
 
     expect(result).toEqual({ error: 'An unexpected error occurred' });
     consoleSpy.mockRestore();
